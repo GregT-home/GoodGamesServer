@@ -1,0 +1,22 @@
+default: &default
+  adapter: <%= ENV["DATABASE_ADAPTER"] %>
+  database: <%= ENV["DATABASE_NAME"] %>
+  username: <%= ENV["DATABASE_USER"] %>
+  password: <%= ENV["DATABASE_PASSWORD"] %>
+  pool: <%= ENV["DATABASE_POOL"] %>
+  encoding: <%= ENV["DATABASE_ENCODING"] %>
+  host: <%= ENV["DATABASE_HOST"] %>
+
+development:
+  <<: *default
+
+test: &test
+  <<: *default
+  database: sample_test
+
+production:
+  <<: *default
+
+cucumber:
+  <<: *test
+
