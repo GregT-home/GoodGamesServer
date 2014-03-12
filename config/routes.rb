@@ -1,6 +1,8 @@
 GoodGamesServer::Application.routes.draw do
-  # gt: minimal route, to get started
-  root :to => "home#index"
+  root 'welcome#index'
+  devise_for :users
+  resources :games
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

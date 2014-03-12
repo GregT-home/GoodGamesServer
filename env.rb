@@ -15,3 +15,7 @@ ENV["DATABASE_POOL"] ||= "5"
 
 ENV["POSTGRES_INTERACTIVE"] ||= "psql"
 ENV["DEVELOPMENT_PORT"] ||= "7100"
+
+# devise-specific overrides
+ENV["DEVISE_SECRET_KEY"] ||= "--really secret key--"
+ENV["RAILS_SECRET_KEY"] ||= "--really, really secret key--"

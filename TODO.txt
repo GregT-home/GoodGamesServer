@@ -1,0 +1,2 @@
+To Do:
+- review options in config/devise.rb and ensure they are valid and correct
