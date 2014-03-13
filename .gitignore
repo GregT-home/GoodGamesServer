@@ -1,3 +1,5 @@
+#default entries from the GitHub .gitignore list for Rails
+
 *.rbc
 *.sassc
 .sass-cache
@@ -17,3 +19,12 @@ rerun.txt
 pickle-email-*.html
 .project
 config/initializers/secret_token.rb
+
+# extra stuff
+.env_overrides.rb
+
+# Mac OS cruft
+.DS_Store
+
+# see also, ~/.gitignore_global
+
