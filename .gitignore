@@ -23,5 +23,8 @@ config/initializers/secret_token.rb
 # extra stuff
 .env_overrides.rb
 
+# Mac OS cruft
+.DS_Store
+
 # see also, ~/.gitignore_global
 

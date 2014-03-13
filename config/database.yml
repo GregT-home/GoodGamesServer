@@ -12,7 +12,7 @@ development:
 
 test: &test
   <<: *default
-  database: sample_test
+  database: <%= ENV["DATABASE_BASENAME"] %>_test
 
 production:
   <<: *default
