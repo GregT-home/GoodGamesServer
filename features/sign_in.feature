@@ -4,12 +4,11 @@ Feature: Sign in
   to the game server.
 
   Scenario: Unsuccessful signin
-    Given a user visits the sign-in page
+    Given a registered user visits the sign-in page
     When they submit invalid sign-in information
     Then they see an error message
 
   Scenario: Successful signin
-    Given a user visits the sign-in page
-      And has an account
-      And provides valid sign-in credentials
+    Given a registered user visits the sign-in page
+      When they provide valid sign-in credentials
     Then they see the GoFishy game screen
