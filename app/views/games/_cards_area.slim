@@ -1,0 +1,8 @@
+section class="cards-area"
+  section class="hand-area"
+    h2 Your Cards:
+    ul.hand
+      - if @game.started
+        - @my.hand.cards.each do |card|
+          li
+            = image_tag "cards/#{card.suit.downcase}#{card.rank.downcase}.png", alt: "#{card.rank}-of-#{card.suit}-pic"

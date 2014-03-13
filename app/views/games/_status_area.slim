@@ -1,0 +1,13 @@
+section class="status-area"
+  h2 Game Status
+  ul.turn
+    li 
+      = "It is " + @game.current_player.name 
+      | 's turn.
+  ul.pond
+    li
+      | Pond has 
+      = "#{@game.pond_size} cards."
+  ul.status
+    - @game.players.each do |player|
+      li #{player.name} has #{player.hand.count} cards and has made #{@game.books(player).count} books (#{@game.books_to_s(player)}) #{(player.name == @my.name) ? '[You]' : ''}.
