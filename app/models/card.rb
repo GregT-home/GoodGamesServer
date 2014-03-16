@@ -2,8 +2,10 @@ class Card
   attr_reader :rank, :suit
 
   # define constants so we can use the same literal string everywhere
-  RANKS = %w(2 3 4 5 6 7 8 9 10 J Q K A)
-  SUITS = %w(C D H S)
+#  RANKS = %w(2 3 4 5 6 7 8 9 10 J Q K A)
+#  SUITS = %w(C D H S)
+  RANKS = %(carrot sun star watermelon banana pin umbrella cloud button heart flower screw moon).split(" ")
+  SUITS = %w(A B C D)
 
   def initialize(myrank, mysuit)
     @rank = myrank

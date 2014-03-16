@@ -15,6 +15,9 @@ $tablet_size: 800px;
 $phone_size: 450px;
 $compression-ratio: .85;
 $card-shrink-ratio: .75;
+// $card-pct-covered: .85;
+$card-pct-covered: .45;
+$book-pct-covered: .95;
 
 // hand/book scaling parameters
 $hand-card-width: 6em;
