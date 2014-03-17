@@ -1,7 +1,7 @@
 describe Result, "Round Result creation and manipulation." do
   context "Round results need an active game." do
-    before (:each) do
-      @game = Game.new()
+    before :each do
+      @game = FishGame.new()
       @game.add_player(1, "Test Player")
       @game.start()
     end
