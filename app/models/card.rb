@@ -11,7 +11,7 @@ class Card
 end
 
   def value
-    RANKS.index(@rank)
+    RANKS.index(@rank.downcase)
   end
 
   def to_s
