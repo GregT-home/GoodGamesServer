@@ -6,20 +6,15 @@ class Player
     @name = name
     @hand = hand
     @messages = []
-    @type = nil
-    make_human
+    @type = :human
   end
 
   def make_robot
     @type = :robot
   end
 
-  def make_human
-    @type = :human
-  end
-
   def robot?
-    return @type == :robot
+    @type == :robot
   end
 
   def tell (msg)
