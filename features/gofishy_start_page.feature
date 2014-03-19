@@ -1,5 +1,5 @@
 @start
-Feature: Game Start Page
+Feature: GoFishy Start Page
 
 As a GoFishy player, I come to the starting page to play a game.
 
@@ -14,5 +14,5 @@ As a GoFishy player, I come to the starting page to play a game.
 	And the Books Area showing their books
 	And the Status Area showing whose turn it is
 	And the Status Area showing how many cards the pond has
-	And the Status Area showing the status of all players
+	And the Status Area showing the status of players
 
