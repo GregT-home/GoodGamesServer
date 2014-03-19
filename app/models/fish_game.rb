@@ -31,12 +31,6 @@ class FishGame
     @game_is_started
   end
 
-  def deal(number)
-    number.times do
-      @players.each { |player| player.hand.receive_cards([@pond.give_card]) }
-    end
-  end
-
   def pond_size
     @pond.count
   end
@@ -44,7 +38,7 @@ class FishGame
   def add_player(number, name)
     unless @game_is_started
       player = Player.new(number, name, Hand.new())
-      players << player
+      @players << player
       player.tell("Waiting for the rest of the players.")
       advance_to_next_player unless @players.empty?
     end
@@ -55,7 +49,7 @@ class FishGame
   end
 
   def player_from_number(number)
-    hit = players.detect() { |player| player.number == number}
+    hit = @players.detect() { |player| player.number == number}
     return hit.nil? ? nil : hit
   end    
 
@@ -130,185 +124,38 @@ class FishGame
     result
   end
 
-  def over?
-    @game_over
-  end
-
-  #
-  # methods below this point really belong to the controller and not the
-  # game.  Not sure what the object should be.
-  #
-
-
-  def setup()
-    get_clients
-    create_players
-    broadcast("=====================\nAnd now play begins...\n")
-    check_players_for_books
-  end
-
   def check_players_for_books
-    players.each do |player|
+    @players.each do |player|
       player.hand.cards.map do |card|
-        if @game.process_books(card.rank) != 0
-          broadcast "#{player.name} was dealt a book of #{card.rank}s.\n"
+        if @game.process_books(card.rank)
+          players.each { |p| p.tell "#{player.name} was dealt a book of #{card.rank}s.\n" }
           break
         end
       end
     end
   end
 
-  def game_play
-    until @game.over? do
-      player = @game.current_player
-      broadcast("-------------------\n" +
-                "It is Player #{player.number}, #{player.name}'s turn.\n")
-      player.tell("Your cards: #{player.hand.to_s}\n")
-
-      loop do
-        player.tell("What action do you want to take? ")
-        raw_input = player.ask
-
-        if process_commands(player, raw_input) == :private
-          next  # no status update needed
-        else
-          break # broadcast status update
-        end
-      end
-    end
-  end # game_play
-
-  def endgame
-    tell_all ("=========================\n" +
-              "There are no more fish in the pond.  Game play is over.\n" +
-              "Here is the final outcome:\n")
-
-    rank_list = calculate_rankings
-    winners = 0
-    rank_list.each { |rank| winners += 1 if rank == 0 }
-    @players.each_with_index do |player, i|
-      part1 = "Player #{player.number}, #{player.name}, made " +
-        "#{books(player).count} books (#{books_to_s(player)})"
-
-      # rank_list is one-off from hand numbers
-      if rank_list[i] == 0
-        tell_all part1 + " and is the winner!\n" if winners == 1
-        tell_all part1 + " and ties for the win!\n" if winners > 1
-      else
-        tell_all part1 + "\n"
-      end
-    end
-    tell_all ("Thank you for Playing.\n" +
-              "=========================\n")
-    tell_all GAME_OVER_TOKEN
-  end
-
-  def process_commands(player, raw_input)
-    args = raw_input.split
-
-    if (args[0] == "deck" && args[1] == "size") ||
-        (args[0] == "pond" && args[1] == "size")
-      player.tell( "#{pond_size} cards are left in the pond\n")
-      return :private # utility command
-    end
-
-    if args[0] == "hand" || args[0] == "cards"
-      player.tell("Your cards: #{player.hand.to_s}\n")
-      return :private # utility command
-    end
-
-    if args[0] == "status"
-      give_player_status(player)
-      return :private # utility command
-    end
-
-    if args[0] == "ask"
-      if process_ask(raw_input, player)
-        return :public # game
-      end
-      return :private
-    end
-
-    player.tell("Not understood.\n" +
-                "  Choices are:\n" +
-                "    ask <player #> for <rank>\n" +
-                "    deck size\n" +
-                "    pond size\n" +
-                "    hand\n" + 
-                "    status\n")
-    return :private
-  end
-
-  def give_player_status(to_player)
-    players.each do |player|
-      to_player.tell ("  #{player.name} (##{player.number})"+
-                      " has #{player.hand.count}" +
-                      " cards and has made #{number_of_books(player)} books" +
-                      " (#{books_to_s(player)})\n")
-    end
-    to_player.tell("  Pond has #{pond_size} cards remaining.\n")
-  end
-
-
-  def process_ask(raw_input, player)
-    victim_number, rank = parse_ask(raw_input)
-
-    if !victim_number
-      player.tell("Victim and/or rank not recognized.\n")
-      return false
-    end
-
-    victim = player_from_number(victim_number)
-
-    if victim.nil?
-      player.tell("That player does not exist.\n")
-      return false
-    end
-
-    if victim == player
-      player.tell("?? You cannot request cards from yourself.\n")
-      return false
-    end
-
-    result = play_round(victim, rank)
-    tell_all("#{player.name} (player ##{player.number})," +
-             " asked for #{rank}s from player" +
-             " ##{victim.number}, #{victim.name}.\n" +
-             result.to_s)
-    victim.tell "Your cards: #{victim.hand.to_s}\n"
-    player.tell "Your cards: #{player.hand.to_s}\n"
-    true
-  end
-
-  def  parse_ask(string)
-    match = string.match(%r{\D*(\d+).*(10|[2-9]|[JQKA])}i)
-    if match
-      player_num = match[1].to_i unless match[1].nil?
-      rank = match[2].upcase unless match[2].nil?
-    end
-    return player_num, rank
+  def over?
+    @game_over
   end
 
   def calculate_rankings
-    # 1. make an array of the number of books each player made
     player_books = []
-    players.each { |player| player_books << books(player).count }
+    @players.each { |player| player_books << books(player).count }
 
-    # 2: make a list of the rankings we have
-    # 3: review the player_books list to see who has what ranking
-    # Final result now indicates player rankings. Duplicates indicate ties.
+    # Compress ties to make ranking buckets. Sort+uniq to put highest
+    # num of books first.  Element number now indicates the ranking.
     bucket_list = player_books.sort.uniq.reverse
+
+    # create an array of each player's rank
     player_books.map { |player| bucket_list.index(player) }
   end
 
-  def tell_all(message)
-    players.each { |player| player.tell(message) }
+  private
+  def deal(number)
+    number.times do
+      @players.each { |player| player.hand.receive_cards([@pond.give_card]) }
+    end
   end
 
-  # def tell_all_but_this_owner(players, omit_player, message)
-  #   players.each do |player|
-  #     player.tell(message) unless player == omit_player
-  #   end
-  # end
-
-end # Game
+end # FishGame
