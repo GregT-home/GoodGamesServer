@@ -1,9 +1,9 @@
 section class="books-area"
   h3 Your Books
-  - unless @game.books(@my).nil?
-    - @game.books(@my).each do |rank|
+  - unless @game.books(@current_player).nil?
+    - @game.books(@current_player).each do |rank|
       ul.books
         testing
-        - %w(c d s h).each do |suit|
+        - Card::SUITS.each do |suit|
           li
-            = image_tag "cards/#{suit.downcase}_#{rank.downcase}.png", alt: "#{rank}-of-#{suit}-pic"
+            = image_tag @card_face.image(card), alt: @card_face.alt(card)

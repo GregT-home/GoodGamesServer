@@ -3,7 +3,6 @@ section class="cards-area"
     h2 Your Cards:
     ul.hand
       - if @game.started
-        - @my.hand.cards.each do |card|
+        - @current_player.hand.cards.each do |card|
           li
-            = image_tag "shapes1/#{card.rank.downcase}_#{card.suit.downcase}.png", alt: "#{card.rank}-of-#{card.suit}-pic"
-            / = image_tag "cards/#{card.suit.downcase}_#{card.rank.downcase}.png", alt: "#{card.rank}-of-#{card.suit}-pic"
+            = image_tag @card_face.image(card), alt: @card_face.alt(card)

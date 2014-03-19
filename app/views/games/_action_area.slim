@@ -7,10 +7,10 @@ section.action-area
           | Hey
           select id="opponent" name="opponent"
             - @game.players.each_with_index do |player, i|
-              / - next if i + 1 == @my.number
+              / - next if i + 1 == @current_player.number
               option value="#{i + 1}" = player.name
           | : Got any
           select id="card" name="card"
-            - @my.hand.cards.uniq { |c| c.rank}.each do |card|
-              option value="#{card.rank}" = card.to_s.split('-').first
+            - @current_player.hand.cards.uniq { |c| c.rank}.each do |card|
+              option value="#{@card_face.rank(card)}" = @card_face.rank(card)
           button type="submit" ask
