@@ -17,39 +17,36 @@ class Result
     @game_over = false
   end
 
-  # part 1a: [got # matches] | [was told to 'Go Fish']
-  # part 1b: (if deck) fished in pond [and got] | [did not get] a Y
-  # part 2 :Player X [made a book] | [did not make a book]
-  # part 3 : [the game is over] | [""]
   def to_s
-    part0 = ""
     if received_from_player
-      part1 = "Player got #{matches}."
+      match_status = "Player got #{matches}."
     else
-      part1 = "Player was told to 'Go Fish' and "
+      match_status = "Player was told to 'Go Fish' and "
       if matches == 0
-        part1 += "he did not get what he asked for from the pond."
+        match_status += "he did not get what he asked for from the pond."
       else
-        part1 += "he got one from the pond!"
+        match_status += "he got one from the pond!"
       end
     end
+
+    match_status += "\n"
     
     if ! book_made
-      part2 = "He did not make a book."
+      book_status = "He did not make a book."
     else
       if surprise_rank.nil?
-        part2 = "He made a book of #{rank}s."
+        book_status = "He made a book of #{rank}s."
       else
-        part2 = "He was surprised to make a book of #{surprise_rank}s."
+        book_status = "He was surprised to make a book of #{surprise_rank}s."
       end
     end
 
     if game_over
-      part3 = "\nThe Game is now over"
+      game_status = "\nThe Game is now over"
     else
-      part3 = ""
+      game_status = ""
     end
 
-   part0 + part1 + "\n" + part2 + part3
+   match_status + book_status + game_status
   end
 end # Result
