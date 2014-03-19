@@ -1,4 +1,4 @@
-class FishGame
+class GoFishyGame
   GAME_OVER_TOKEN = "::GAME_OVER::" unless const_defined?(:GAME_OVER_TOKEN)
 
   attr_reader :books_list, :pond, :players
@@ -23,6 +23,7 @@ class FishGame
     @players.each {  |player| @books_list[player] = [] }
     @current_player_index = 0
     deal(@players.count > 4 ? 5: 7)
+    current_player.tell("It is your turn.")
     @game_is_started = true
   end
 

@@ -30,7 +30,7 @@ class Player
 
     messages = @messages
     @messages = [] if consume
-    messages
+    messages.reverse
   end
 
   def messages?

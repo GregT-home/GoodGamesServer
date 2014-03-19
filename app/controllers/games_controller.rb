@@ -7,7 +7,7 @@ class GamesController < ApplicationController
   def show
     # future: if there is a saved game, then restore it
     # new game is created on every refresh
-    @game = FishGame.new()
+    @game = GoFishyGame.new()
     player_number = 1
     @game.add_player(player_number, "Greg")
     ["Robbie", "R.D. Olivaw", "Speedy", "R2-D2", "C-3PO"].each do |robot|

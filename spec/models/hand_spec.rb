@@ -1,5 +1,3 @@
-require "fish_spec_helpers"
-
 describe Hand, "Hand Creation and management object." do
   context "A hand can accept cards from a deck." do
     before :each do
@@ -46,7 +44,7 @@ describe Hand, "Hand Creation and management object." do
   describe Hand, ".new_cards_from_s: Hand can initialized at creation." do
     it "Can create a hand with specific cards" do
       # reversing so hands will be in "human-expected" order
-      @hand = Hand.new(FishSpecHelpers.cards_from_hand_s("AC 3C 4C 2H"))
+      @hand = Hand.new(GoFishySpecHelpers.cards_from_hand_s("AC 3C 4C 2H"))
       all_cards_present = ( @hand.cards[0].rank == "A" &&
                             @hand.cards[1].rank == "3" &&
                             @hand.cards[2].rank == "4" &&
@@ -56,7 +54,7 @@ describe Hand, "Hand Creation and management object." do
 
     context "Creating a stacked deck with 'AC 2C 3C 4C 2H 2C 2S' and 5=card hand from it." do
       before :each do
-        @deck = Deck.new(FishSpecHelpers.cards_from_hand_s("AC 3C 4C 2H 2C 2S 2D"))
+        @deck = Deck.new(GoFishySpecHelpers.cards_from_hand_s("AC 3C 4C 2H 2C 2S 2D"))
         @hand = Hand.new
         @reference_deck_count = @deck.count
         @reference_deck_count.should eq 7
@@ -102,7 +100,7 @@ describe Hand, "Hand Creation and management object." do
   describe Hand, ".to_s:" do
     it "can display a hand as a string" do
       # reversing so hands will be in "human-expected" order
-      hand = Hand.new(FishSpecHelpers.cards_from_hand_s("AC 3C 4C 2H"))
+      hand = Hand.new(GoFishySpecHelpers.cards_from_hand_s("AC 3C 4C 2H"))
 
       hand.to_s.should eq "[A-C] [3-C] [4-C] [2-H]"
     end
@@ -111,7 +109,7 @@ describe Hand, "Hand Creation and management object." do
   describe Hand, ".sort!:" do
     it "can sort a hand" do
       # reversing so hands will be in "human-expected" order
-      hand = Hand.new(FishSpecHelpers.cards_from_hand_s("AC 3C 4C 2H"))
+      hand = Hand.new(GoFishySpecHelpers.cards_from_hand_s("AC 3C 4C 2H"))
       hand.sort!
       hand.to_s.should eq "[A-C] [4-C] [3-C] [2-H]"
     end

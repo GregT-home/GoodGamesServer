@@ -9,9 +9,6 @@
 #  expect(as1).to eql? (as2)
 #  check Ken's slides for actual test set
 
-#Dir['../tests/*.rb'].each { |file| require_relative "#{file}" }
-require "fish_spec_helpers"
-
 describe Card, ".new: cards can be created." do
   it "They have rank and suit." do
     card1 = Card.new('A','C')

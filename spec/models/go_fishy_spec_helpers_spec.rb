@@ -1,4 +1,4 @@
-describe FishSpecHelpers, ".new: cards can be generated from rank/suit strings." do
+describe GoFishySpecHelpers, ".new: cards can be generated from rank/suit strings." do
   it ".new: can be done one or more times" do
     static_cards = [Card.new('A','C'),
                     Card.new('2','C'),
@@ -12,13 +12,13 @@ describe FishSpecHelpers, ".new: cards can be generated from rank/suit strings."
   end
 
   it ".card_from_hand_s: a card can be created from string" do
-    card = FishSpecHelpers.cards_from_hand_s("A-C")[0]
+    card = GoFishySpecHelpers.cards_from_hand_s("A-C")[0]
     card.rank.should eql "A"
     card.suit.should eql "C"
   end
 
   it ".cards_from_hand_s: multiple cards can be created from string" do
-    cards = FishSpecHelpers.cards_from_hand_s("A-C 3C 4c")
+    cards = GoFishySpecHelpers.cards_from_hand_s("A-C 3C 4c")
 
     cards.each { |card|
       expect(card).to be_kind_of(Card)
@@ -26,7 +26,7 @@ describe FishSpecHelpers, ".new: cards can be generated from rank/suit strings."
   end
 
   it ".card_from_s: a single card can be created and represented as a string" do
-    card = FishSpecHelpers.card_from_s("2-H")
+    card = GoFishySpecHelpers.card_from_s("2-H")
     expect(card).to be_kind_of(Card)
     card.to_s.should eq "2-H"
   end
