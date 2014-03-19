@@ -2,11 +2,11 @@ class Hand
   attr_reader :cards
 
   def initialize(cards=nil)
-    @cards = cards ? @cards = cards : @cards = []
+    @cards = cards || []
   end
 
   def give_card
-    card = @cards.pop
+    @cards.pop
   end
 
   def count
@@ -33,8 +33,6 @@ class Hand
   end
 
   def got_book?(rank)
-#    cards = @cards.select { |card| card.rank == rank }
-#    cards.count == 4
     rank_count(rank) == 4
   end
 
