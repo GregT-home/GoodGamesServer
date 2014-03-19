@@ -1,0 +1,13 @@
+section.game-area
+  section.play-area
+    section.history-area
+      h2 Last Round
+      p
+        - @current_player.messages.each do |msg|
+          | #{msg}
+
+    - if @game.started
+      == render 'games/action_area'
+      == render 'games/cards_area'
+      == render 'games/books_area'
+      == render 'games/status_area'
