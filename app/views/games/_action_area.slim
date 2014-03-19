@@ -6,10 +6,10 @@ section.action-area
         | Hey
         =< select_tag "opponents",
           options_for_select(@game.players.map(&:name).select {|name| name != @current_player.name})
-        label_tag , Got any 
+        = label_tag ", Got any "
         = select_tag "cards",
           options_for_select(@current_player.hand.cards.map {|card| @card_face.rank(card)}.uniq)
-        label_tag 's?
+        = label_tag "'s?"
         = submit_tag 'Ask'
     - else
       p.action Waiting for game to start.

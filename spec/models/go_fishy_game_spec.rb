@@ -1,16 +1,16 @@
-require "fish_spec_helpers"
+require "go_fishy_spec_helpers"
 
-describe FishGame, "Methods prior to game start." do
+describe GoFishyGame, "Methods prior to game start." do
   context "Create a basic game unstarted game." do
     before :each do
-      @game = FishGame.new()
+      @game = GoFishyGame.new()
       @game.add_player(501, "One")
 
       @current_player = @game.current_player
     end
     
     it "#new: creates a Fish game" do
-      expect(@game).to be_kind_of(FishGame)
+      expect(@game).to be_kind_of(GoFishyGame)
     end
 
     it "#add_player: adds a new player" do
@@ -23,10 +23,10 @@ describe FishGame, "Methods prior to game start." do
   end
 end # tests for unstarted game
 
-describe FishGame, "Methods for a running game." do
+describe GoFishyGame, "Methods for a running game." do
   context "Create a basic game running game." do
     before :each do
-      @game = FishGame.new()
+      @game = GoFishyGame.new()
       @game.add_player(501, "One")
       @game.start()
 
@@ -49,14 +49,14 @@ describe FishGame, "Methods for a running game." do
   end
 end # tests for running game
 
-describe FishGame, "Methods for a multi-player game." do
+describe GoFishyGame, "Methods for a multi-player game." do
   context "Use #new, and #add_player to set up multi-player game." do
     before :each do
       names = %w(One Two Three Four Five)
 
       @number_of_test_players = names.count
       @hand_length = 5
-      @game = FishGame.new()
+      @game = GoFishyGame.new()
 
       names.each_with_index { |name, i| @game.add_player(i+10, name) }
       @game.start()
@@ -86,19 +86,19 @@ describe FishGame, "Methods for a multi-player game." do
   end # context for random players
 end # multi-player game setup tests
 
-describe FishGame, "Test game play logic." do
+describe GoFishyGame, "Test game play logic." do
   context "Create a game with a stacked of known player hands." do
     before :each do
       names = %w(First Second Third)
       @number_of_test_players = names.count
       @hand_size = 7
 
-      test_deck = FishSpecHelpers.cards_from_hand_s( "2C 2H 3C QH 5C 4H 9H",
+      test_deck = GoFishySpecHelpers.cards_from_hand_s( "2C 2H 3C QH 5C 4H 9H",
                                           "2S 2D 3S 3D 5S 4D 9C",
                                           "10C 10H 10S 10D AC AH 9S")
       test_deck.unshift(Card.new("3", "H"))  # add an extra card
 
-      @game = FishGame.new()
+      @game = GoFishyGame.new()
       names.each_with_index { |name, i| @game.add_player(i+20, name) }
       @game.start(test_deck)
     end # before :each
@@ -264,7 +264,7 @@ describe FishGame, "Test game play logic." do
         @game.current_player.hand.give_matching_cards("A")
 
         # Stack the hand with three books
-        cards = FishSpecHelpers.cards_from_hand_s("2C 2S 2D 2H KC KS KD KH AC AS AD AH")
+        cards = GoFishySpecHelpers.cards_from_hand_s("2C 2S 2D 2H KC KS KD KH AC AS AD AH")
         @game.current_player.hand.receive_cards(cards)
 
         # check the hand for each kind of book
