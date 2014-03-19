@@ -1,16 +1,15 @@
 section.action-area
   h2 Actions you can take
-  form action="process_action.php" method="post"
-    ul.action
-      - if @game.started
-        li
-          | Hey
-          select id="opponent" name="opponent"
-            - @game.players.each_with_index do |player, i|
-              / - next if i + 1 == @current_player.number
-              option value="#{i + 1}" = player.name
-          | : Got any
-          select id="card" name="card"
-            - @current_player.hand.cards.uniq { |c| c.rank}.each do |card|
-              option value="#{@card_face.rank(card)}" = @card_face.rank(card)
-          button type="submit" ask
+  = form_tag "/games/1", method: :patch, class: "action"
+    - if @game.started
+      li
+        | Hey
+        =< select_tag "opponents",
+          options_for_select(@game.players.map(&:name).select {|name| name != @current_player.name})
+        label_tag , Got any 
+        = select_tag "cards",
+          options_for_select(@current_player.hand.cards.map {|card| @card_face.rank(card)}.uniq)
+        label_tag 's?
+        = submit_tag 'Ask'
+    - else
+      p.action Waiting for game to start.

@@ -8,12 +8,17 @@ class GamesController < ApplicationController
     # future: if there is a saved game, then restore it
     # new game is created on every refresh
     @game = FishGame.new()
-    @game.add_player(1, "Greg")
+    player_number = 1
+    @game.add_player(player_number, "Greg")
+    ["Robbie", "R.D. Olivaw", "Speedy", "R2-D2", "C-3PO"].each do |robot|
+      player_number += 1
+      @game.add_player(player_number, robot)
+      @game.current_player.make_robot
+    end
     @card_face = CardDecorator.new([:standard,:shapes1,:shapes2,:fancy][rand(5)])
     @game.start()
     @current_player = @game.current_player
-    # @game.add_player(2, "Robbie")
-    # @game.current_player.make_robot
+    @players = @game.players
   end # end show
 
 
