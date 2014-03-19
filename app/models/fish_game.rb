@@ -1,7 +1,6 @@
 class FishGame
   GAME_OVER_TOKEN = "::GAME_OVER::" unless const_defined?(:GAME_OVER_TOKEN)
 
-  public
   attr_reader :books_list, :pond, :players
 
   def initialize()
