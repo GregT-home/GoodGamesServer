@@ -1,4 +1,4 @@
-class TestHelp
+class FishSpecHelpers
   # Returns an array of Playing Cards based on the given strings
   # The RE splits sequences similar to: 5S 5-S 10-C 10C, etc. into three
   # elements: Whole String, Rank and Suit.
