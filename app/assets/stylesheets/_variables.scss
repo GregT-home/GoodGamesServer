@@ -1,0 +1,25 @@
+// area colors
+$default-body-color: Linen;
+$header-area-color: LightGray;
+$footer-area-color: $header-area-color;
+$non-cards-area-color: BlanchedAlmond;
+$gameboard-color1: #33AD33;
+$gameboard-color2: #003D00;
+
+// Text colors
+$heading-color: MediumBlue;
+
+//media-oriented parameters
+$base-font-size: 16px;
+$tablet_size: 800px;
+$phone_size: 450px;
+$compression-ratio: .85;
+$card-shrink-ratio: .75;
+// $card-pct-covered: .85;
+$card-pct-covered: .45;
+$book-pct-covered: .95;
+
+// hand/book scaling parameters
+$hand-card-width: 6em;
+$book-card-width: $hand-card-width * .50;
+
