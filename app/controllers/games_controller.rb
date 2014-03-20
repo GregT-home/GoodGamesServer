@@ -1,28 +1,44 @@
 class GamesController < ApplicationController
 
+  def new
+  end
+
   def index
-    
+    @games = GameSlot.all
   end
 
   def show
-    # future: if there is a saved game, then restore it
-    # new game is created on every refresh
-    @game = GoFishyGame.new()
-    player_number = 1
-    @game.add_player(player_number, "Greg")
-    ["Robbie", "R.D. Olivaw", "Speedy", "R2-D2", "C-3PO"].each do |robot|
-      player_number += 1
-      @game.add_player(player_number, robot)
-      @game.current_player.make_robot
-    end
-    @card_face = CardDecorator.new([:standard,:shapes1,:shapes2,:fancy][rand(5)])
-    @game.start()
+    slot = GameSlot.find_by(id: params["id"])
+    return redirect_to new_game_path unless slot
+
+    @game = slot.game
+    @card_face = CardDecorator.new(slot.card_style.to_sym)
     @current_player = @game.current_player
     @players = @game.players
-  end # end show
+  end
 
+  def create
+    num_robots = params["number-of-robots"].to_i
+    num_humans = params["number-of-humans"].to_i
+    card_style = params["card-style"].to_sym
 
-private
+    # future: if there is a saved game, then restore it
+    # new game is created on every refresh
+    game = GoFishyGame.new()
+    player_number = 1
+    game.add_player(player_number, "Greg")
+    robot_names = ["Robbie", "R.D. Olivaw", "Speedy", "R2-D2", "C-3PO"].shuffle
+    num_robots.times do
+      player_number += 1
+      game.add_player(player_number, robot_names.pop)
+      game.current_player.make_robot
+    end
+    game.start()
 
+    slot = GameSlot.create(game: game,
+                           game_type: game.class.name,
+                           card_style: card_style)
 
+    redirect_to game_path slot.id
+  end # end create
 end # end GamesController

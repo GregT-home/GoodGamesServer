@@ -1,0 +1,17 @@
+section.startup-parameters-area
+h1 Join GoFishy Game
+= form_tag games_path
+  p
+    = select_tag "number-of-humans",
+      options_for_select([1, 2, 3, 4])
+    |  number of humans who will play
+  p
+    = select_tag "number-of-robots",
+      options_for_select([0, 1, 2, 3, 4,])
+    |  number of non-humans who will play
+  p
+    = select_tag "card-style",
+      options_for_select(["standard", "fancy", "shapes1", "shapes2"])
+    |  style of cards to use
+
+  = submit_tag "Go Play"
