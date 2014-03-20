@@ -37,8 +37,8 @@ describe Player, "Player communications" do
 
     messages = @player.messages(false)
 
-    messages[0].should eql "message one"
-    messages[1].should eql "message two"
+    messages[0].should eql "message two"
+    messages[1].should eql "message one"
     messages[2].should eql nil
 
     @player.messages?.should be_true
