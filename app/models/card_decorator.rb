@@ -3,7 +3,7 @@ class CardDecorator
     :standard => {suits: Card::SUITS,  ranks: Card::RANKS },
     :fancy    => {suits: %w(c d h s), ranks: %w(2 3 4 5 6 7 8 9 10 j q k a) },
     :shapes1  => {suits: %w(a b c d), ranks: %w(carrot sun star watermelon banana pin umbrella cloud button heart flower screw moon) },
-    :shapes2  => {suits: %w(a b c d), ranks: %w(grapes tv cactus muffin rocket bulb plant cup crown pacman cheese smiley envelope) }
+    :shapes2  => {suits: %w(a b c d), ranks: %w(grapes tv cactus pie rocket bulb plant cup crown pacman cheese smiley envelope) }
   }
 
   def initialize(style = nil)
