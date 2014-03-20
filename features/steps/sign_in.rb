@@ -20,8 +20,8 @@ class Spinach::Features::SignIn < Spinach::FeatureSteps
     click_button "Sign in"
   end
 
-  step 'they see the GoFishy game screen' do
-    save_and_open_page("tmp-pagedump.html") if (!page.has_text?("Game Status")) 
-    expect(page).to have_text("Game Status")
+  step 'they see the Join GoFishy game screen' do
+    save_and_open_page("tmp-pagedump.html") if (!page.has_text?("Join GoFishy Game")) 
+    expect(page).to have_text("Join GoFishy Game")
   end
 end

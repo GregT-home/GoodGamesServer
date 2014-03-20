@@ -11,4 +11,4 @@ Feature: Sign in
   Scenario: Successful signin
     Given a registered user visits the sign-in page
       When they provide valid sign-in credentials
-    Then they see the GoFishy game screen
+    Then they see the Join GoFishy game screen
