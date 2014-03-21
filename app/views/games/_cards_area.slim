@@ -6,3 +6,12 @@ section class="cards-area"
         - @current_player.hand.cards.each do |card|
           li
             = image_tag @card_face.image_name(card), alt: @card_face.text_name(card)
+  section class="books-area"
+    h3 Your Books
+    - unless @game.books(@current_player).nil?
+      - @game.books(@current_player).each do |rank|
+        ul.books
+          testing
+          - Card::SUITS.each do |suit|
+            li
+              = image_tag @card_face.image_name(card), alt: @card_face.text_name(card)

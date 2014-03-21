@@ -7,7 +7,7 @@ section.game-area
         -break if i > 3
 
     - if @game.started
-      == render 'games/action_area'
-      == render 'games/cards_area'
-      == render 'games/books_area'
-      == render 'games/status_area'
+      = render 'games/action_area'
+      = render 'games/cards_area'
+        = render 'games/books_area'
+      = render 'games/status_area'

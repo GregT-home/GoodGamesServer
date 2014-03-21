@@ -44,10 +44,27 @@ p.history-area {
     h3 { margin: .5em 0 .25em 0; }
   }
 
-  .action-area, .history-area, .hand-area{
-    width: 50%;
+  .history-area {
+    min-height: 1.75 * $hand-card-width;
+    overflow-y: scroll;
+  }
+  
+  .books-area {
+    min-height: $hand-card-width;
+  }
+
+  .history-area {
+    width: 55%;
+    float: right;
+  }
+  .action-area {
+    width: 45%;
     float: left;
   }
+  .hand-area {
+    width: 100%;
+  }
+
   #cards, #opponents { background:transparent;}
 
   .hand-area {
