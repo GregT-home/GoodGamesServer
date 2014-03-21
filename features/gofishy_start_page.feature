@@ -7,11 +7,13 @@ As a GoFishy player, I come to the starting page to play a game.
 
     Given a GoFishy Player
       When they sign-in
-      Then they will see the Join GoFishy Page
+      Then they will see the Game Play Page
+      When they click the New Game link
+      Then they will see the Create GoFishy Page
       When they set the number of human players
         And they set the number of robot players
 	And they set the style of cards to use
-      When they click on the Go Play button
+      When they click the Go Play button
         Then they see the GoFishy game play page
           And the History Area with messages about the Last Round
 	  And the Action Area that shows who to ask for what cards

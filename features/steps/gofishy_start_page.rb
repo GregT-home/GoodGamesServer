@@ -13,11 +13,19 @@ class Spinach::Features::GofishyStartPage < Spinach::FeatureSteps
     click_button "Sign in"
   end
 
-  step 'they will see the Join GoFishy Page' do
-    expect(page).to have_text("Join GoFishy Game")
+  step 'they will see the Create GoFishy Page' do
+    expect(page).to have_text("Create GoFishy Game")
   end
 
-  step 'they set the number of human players' do
+  step "they click the New Game Link" do
+    click_link "New Game"
+  end
+
+  step 'they will see the Game Play Page' do
+    expect(page).to have_text("Games You Can Play")
+  end
+ 
+ step 'they set the number of human players' do
     within("#number-of-humans") do
       find("option[value='1']").click
     end
@@ -35,7 +43,7 @@ class Spinach::Features::GofishyStartPage < Spinach::FeatureSteps
     end
   end
 
-  step "they click on the Go Play button" do
+  step "they click the Go Play button" do
     click_button "Go Play"
   end
 

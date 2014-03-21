@@ -7,7 +7,6 @@ section.game-area
           li #{msg}
 
     - if @game.started
-      = render 'games/action_area'
-      = render 'games/cards_area'
-        / = render 'games/books_area'
-      = render 'games/status_area'
+      = render 'games/show_action_area'
+      = render 'games/show_cards_area'
+      = render 'games/show_status_area'
