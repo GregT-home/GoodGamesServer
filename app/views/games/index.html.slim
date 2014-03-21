@@ -1,11 +1,14 @@
-h2 here we are; this is games/index.html
+h2 Games You Can Play
 
-/ = will_paginate
+table.games border=1 cellspacing=0
+  tr
+    th Game #
+    th Type
+    th Card Style
+    th When changed
+  tr.new-game
+    td colspan=4
+      = link_to "New Game", new_game_path
+  = render @games
 
-ul.users
-/ = render @users
-/ = will_paginate
 
-ul.games
-  =render @games
-/ = will_paginate
