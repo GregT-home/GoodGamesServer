@@ -32,6 +32,8 @@ class GamesController < ApplicationController
       player_number += 1
       game.add_player(player_number, robot_names.pop)
       game.current_player.make_robot
+      game.players[0].tell "Adding a new player..."
+      game.players[0].tell "Added player ##{game.current_player.number}, #{game.current_player.name} to game"
     end
     game.start()
 
