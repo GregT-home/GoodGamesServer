@@ -20,6 +20,10 @@ module GoodGamesServer
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
+
+    # make bootstrap-sass compatible with the asset pipeline
+    config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
+
     # Eager load all value objects, as they may be instantiated from
     # YAML before the symbol is referenced
     config.before_initialize do |app|
@@ -33,5 +37,5 @@ module GoodGamesServer
         require_dependency file
       end
     end
-  end
-end
+  end # end class Application
+end # end GoodGamesServer

@@ -1,9 +1,11 @@
 footer class="footer"
   small
-    | <a href="http://rolemodelsoftware.com/">Good Games Server for RoleModel Software</a>
+    | <a href="http://rolemodelsoftware.com/">Good Games Server</a> for RoleModel Software
       by Greg Tarsa
   nav
-/    ul
+    ul
+      li About
+      li = mail_to "greg.tarsa@rolemodelsoftware.com", "Comments", subject: "Feedback on Good Games Server Page"
 /      li = link_to "About",   about_path
 /      li = link_to "Contact", contact_path
 

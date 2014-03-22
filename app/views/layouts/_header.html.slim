@@ -1,25 +1,25 @@
-/ code comes out of Hartl tutorial, need to decide whether to use
-/ Bootstrap or not.  When that decision is made, the classes below
-/ may, or may not be removed.
-header.navbar.navbar-fixed-top.navbar-inverse
+header.navbar.navbar-fixed-top
   .navbar-inner
     .container
       = link_to "GoodGames", root_path, id: "logo"
       nav
         ul.nav.pull-right.navbar-nav
           li = link_to "Home", root_path
+          / gt: to be implemented
           / li = link_to "Help", help_path
           li Help
           - if signed_in?
+            / gt: to be implemented
             / li = link_to "Users", users_path
             li#fat-menu.dropdown
               a.dropdown-toggle[href="#" data-toggle="dropdown"]
-                |  Account (as #{current_user.email}
+                |  Account
                 b.caret
               ul.dropdown-menu
+                / gt: to be implemented
                 / li = link_to "Profile", current_user
                 / li = link_to "Change Password", edit_user_path(current_user)
-                  li Change Password
+                li Change Password
                 li.divider
                 li = link_to "Sign out", destroy_user_session_path, method: "delete"
           - else

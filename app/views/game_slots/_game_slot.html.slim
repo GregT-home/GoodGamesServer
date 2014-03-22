@@ -1,7 +1,7 @@
 tr
-  td
+  td.active
     = link_to "#{game_slot.id}", game_path(id: game_slot.id)
-  td
+  td.active
     = link_to "#{game_slot.game_type}", game_path(id: game_slot.id)
   td
     = game_slot.card_style

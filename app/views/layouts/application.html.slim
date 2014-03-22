@@ -4,14 +4,13 @@ html
     title Good Games Server
     = stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true
     = javascript_include_tag "application", "data-turbolinks-track" => true
+    meta name="viewport" content="width=device-width, initial-scale=1"
     = csrf_meta_tags
   body
     = render 'layouts/header'
-    div.notices
-      p.notice
-        = notice
-      p.alert
-        = alert
+    div.container
+      - flash.each do |key, value|
+        = content_tag :div, value, class: "alert alert-#{key}"
     = yield
     = render 'layouts/footer'
     = debug(params) if Rails.env.development?
