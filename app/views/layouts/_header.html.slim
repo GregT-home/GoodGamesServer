@@ -5,15 +5,17 @@ header.navbar.navbar-fixed-top
       nav
         ul.nav.pull-right.navbar-nav
           li = link_to "Home", root_path
-          / gt: to be implemented
-          / li = link_to "Help", help_path
-          li Help
+          li = link_to "Play", games_path
+          li
+            a[href="#"]
+              | Help
           - if signed_in?
-            / gt: to be implemented
-            / li = link_to "Users", users_path
+            li
+              a[href="#"]
+                | Users
             li#fat-menu.dropdown
               a.dropdown-toggle[href="#" data-toggle="dropdown"]
-                |  Account
+                |  Account 
                 b.caret
               ul.dropdown-menu
                 / gt: to be implemented

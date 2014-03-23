@@ -9,9 +9,14 @@ $brand-danger:  #d9534f;
 @import "bootstrap";
 @media (min-width: 980px) {
   body {
-    padding-top: 70px;
+    padding-top: 100px;
     padding-bottom: 42px;
   }
+}
+
+/* Sign-In */
+.new_user {
+  margin-left: 15px;
 }
 
 /* header */
