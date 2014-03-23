@@ -29,3 +29,7 @@ gem 'coffee-rails', '~> 4.0.0'
 gem 'jquery-rails'
 gem 'turbolinks' # Turbolinks: Read more: https://github.com/rails/turbolinks
 gem 'jbuilder', '~> 1.2'
+
+group :production do
+  gem 'rails_12factor'
+end
