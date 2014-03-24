@@ -1,6 +1,6 @@
 section.action-area
   h2 Actions you can take
-  = form_tag "/games/1", method: :patch, class: "action"
+  = form_tag game_path(@id), method: :patch, class: "action"
     - if @game.started
       li
         | Hey

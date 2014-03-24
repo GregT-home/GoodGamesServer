@@ -14,15 +14,18 @@ class GamesController < ApplicationController
     @game = slot.game
     @card_face = CardDecorator.new(slot.card_style.to_sym)
     @current_player = @game.current_player
+    @id = slot.id 
   end
 
   def update
-    # opponent_name = params["opponents"].to_i
-    # card_rank = params["cards"].to_i
-    # slot = GameSlot.find_by(id: params["id"])
-    # return redirect_to new_game_path unless slot
+    opponent_name = params["opponents"].to_i
+    card_rank = params["cards"].to_i
+binding.pry
+    slot = GameSlot.find_by(id: params["id"])
+    return redirect_to new_game_path unless slot
 
-    # @game = slot.game
+    @game = slot.game
+
     # result = play_round(opponent_name)
 
   end
