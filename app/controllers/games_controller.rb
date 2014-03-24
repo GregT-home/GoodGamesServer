@@ -18,16 +18,30 @@ class GamesController < ApplicationController
   end
 
   def update
-    opponent_name = params["opponents"].to_i
-    card_rank = params["cards"].to_i
-binding.pry
     slot = GameSlot.find_by(id: params["id"])
     return redirect_to new_game_path unless slot
 
-    @game = slot.game
+    game = slot.game
+    current = game.current_player
+    
+    unless (current.robot?)
+      rank = params["cards"]
+      victim = game.player_from_name(params["opponents"])
+      result = game.play_round(victim,rank)
+      game.players.each do |player|
+        player.tell("#{current.name}, asked for #{rank}s " +
+                    "from #{victim.name}.\n#{result}")
+      end
+    end
 
-    # result = play_round(opponent_name)
+    while(game.current_player.robot?) do
+      make_robot_moves(game)
+    end
 
+    slot.game = game
+    slot.save
+
+    redirect_to game_path slot.id
   end
 
 
@@ -57,4 +71,25 @@ binding.pry
 
     redirect_to game_path slot.id
   end # end create
+
+private
+  def make_robot_moves(game)
+
+    current = game.current_player
+    rank = current.hand.cards[0].rank
+    return if rank.nil?
+
+    me = victim_number = current.number
+    while (victim_number == me) do
+      victim_number = rand(game.number_of_players - 1)
+    end
+    victim = game.players[victim_number]
+    
+    result = game.play_round(victim,rank)
+    game.players.each do |player|
+      player.tell("#{current.name}, asked for #{rank}s " +
+                  "from #{victim.name}.\n#{result}") # unless player.robot?
+    end
+  end # make_robot_moves
+
 end # end GamesController

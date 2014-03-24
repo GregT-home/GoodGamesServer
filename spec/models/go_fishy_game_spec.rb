@@ -54,8 +54,6 @@ describe GoFishyGame, "Methods for a multi-player game." do
     before :each do
       names = %w(One Two Three Four Five)
 
-      @number_of_test_players = names.count
-      @hand_length = 5
       @game = GoFishyGame.new()
 
       names.each_with_index { |name, i| @game.add_player(i+10, name) }
@@ -64,7 +62,7 @@ describe GoFishyGame, "Methods for a multi-player game." do
     end # before :each
     
     it "#add_player: multiple players are set up properly" do
-      @game.players.each { |player| player.hand.count.should be @hand_length }
+      @game.players.each { |player| player.hand.count.should be 5 }
     end
 
     it "#current_player is a player and the 'first' player" do
@@ -80,8 +78,18 @@ describe GoFishyGame, "Methods for a multi-player game." do
 
     it "#advance_to_next_player goes around in an ordered loop of players." do
       first_player = @game.current_player
-      @number_of_test_players.times { @game.advance_to_next_player }
+      @game.number_of_players.times { @game.advance_to_next_player }
       @game.current_player.should eql first_player
+    end
+
+    it "#player_from_name returns the player object for a given name" do
+      @game.advance_to_next_player
+      test_name = @game.current_player.name
+      expect(@game.player_from_name(test_name)).to eql @game.current_player
+    end
+
+    it "#player_from_name returns nil if name not found" do
+      expect(@game.player_from_name("Oglethorpe")).to be_nil
     end
   end # context for random players
 end # multi-player game setup tests

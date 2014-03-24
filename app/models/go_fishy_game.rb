@@ -48,9 +48,8 @@ class GoFishyGame
     @players[@current_player_index]
   end
 
-  def player_from_number(number)
-    hit = @players.detect() { |player| player.number == number}
-    return hit.nil? ? nil : hit
+  def player_from_name(name)
+    hit = @players.detect() { |player| player.name == name}
   end    
 
   def number_of_players
