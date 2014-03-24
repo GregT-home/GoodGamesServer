@@ -25,6 +25,12 @@ class CardDecorator
     ranks[standard_ranks.index(card.rank.downcase)].upcase
   end
 
+  def rankoption(card)
+    standard_ranks = DECORATION_STYLES[:standard][:ranks]
+    ranks = DECORATION_STYLES[@style][:ranks]
+    [ranks[standard_ranks.index(card.rank.downcase)].upcase, card.rank]
+  end
+
   def suit(card)
     standard_suits = DECORATION_STYLES[:standard][:suits]
     suits = DECORATION_STYLES[@style][:suits]
