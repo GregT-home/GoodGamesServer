@@ -13,7 +13,33 @@ class Spinach::Features::GofishyStartPage < Spinach::FeatureSteps
     click_button "Sign in"
   end
 
-  step 'they will see the GoFishy Page' do
+  step 'they will see the Join GoFishy Page' do
+    expect(page).to have_text("Join GoFishy Game")
+  end
+
+  step 'they set the number of human players' do
+    within("#number-of-humans") do
+      find("option[value='1']").click
+    end
+  end
+
+  step 'they set the number of robot players' do
+    within("#number-of-robots") do
+      find("option[value='3']").click
+    end
+  end
+
+  step 'they set the style of cards to use' do
+    within("#card-style") do
+      find("option[value='fancy']").click
+    end
+  end
+
+  step "they click on the Go Play button" do
+    click_button "Go Play"
+  end
+
+  step 'they see the GoFishy game play page' do
     expect(page).to have_css "section.game-area"
   end
 
@@ -36,7 +62,7 @@ class Spinach::Features::GofishyStartPage < Spinach::FeatureSteps
   step 'the Card Area showing their cards' do
     within(".cards-area") do
       expect(page).to have_css "h2", text: "Your Cards:"
-      expect(page).to have_css "img", count: 5
+      expect(page).to have_css "img", between: 5..7
     end
   end
 

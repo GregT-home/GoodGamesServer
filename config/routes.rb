@@ -1,7 +1,7 @@
 GoodGamesServer::Application.routes.draw do
-  root 'welcome#index'
   devise_for :users, :controllers => { registrations: "registrations"}
   resources :games
+  root 'welcome#index'
 
 
   # The priority is based upon order of creation: first created -> highest priority.

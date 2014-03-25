@@ -1,0 +1,9 @@
+tr
+  td
+    = link_to "#{game_slot.id}", game_path(id: game_slot.id)
+  td
+    = link_to "#{game_slot.game_type}", game_path(id: game_slot.id)
+  td
+    = game_slot.card_style
+  td
+    = game_slot.updated_at
