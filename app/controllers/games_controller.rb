@@ -27,6 +27,8 @@ class GamesController < ApplicationController
     unless (current.robot?)
       rank = params["cards"]
       victim = game.player_from_name(params["opponents"])
+      # test: play w/ self if no other players
+      victim = game.current_player if victim.nil? && game.number_of_players == 1
       result = game.play_round(victim,rank)
       game.players.each do |player|
         player.tell("#{current.name}, asked for #{rank}s " +
@@ -34,8 +36,8 @@ class GamesController < ApplicationController
       end
     end
 
-    while(game.current_player.robot?) do
-      make_robot_moves(game)
+    while(game.current_player.robot? && game.over?) do
+      make_robot_move(game)
     end
 
     slot.game = game
@@ -73,7 +75,7 @@ class GamesController < ApplicationController
   end # end create
 
 private
-  def make_robot_moves(game)
+  def make_robot_move(game)
 
     current = game.current_player
     rank = current.hand.cards[0].rank
