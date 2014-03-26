@@ -17,7 +17,7 @@ class Result
     @game_over = false
   end
 
-  def to_s
+  def to_s(styler = nil)
     if received_from_player
       match_status = "Player got #{matches}."
     else
@@ -34,10 +34,12 @@ class Result
     if ! book_made
       book_status = "He did not make a book."
     else
-      if surprise_rank.nil?
-        book_status = "He made a book of #{rank}s."
+      if surprise_rank
+        display_rank = styler ? styler.rank(Card.new(surprise_rank, "c")) : surprise_rank
+        book_status = "He was surprised to make a book of #{display_rank}s."
       else
-        book_status = "He was surprised to make a book of #{surprise_rank}s."
+        display_rank = styler ? styler.rank(Card.new(rank, "c")) : rank
+        book_status = "He made a book of #{display_rank}s."
       end
     end
 
@@ -47,6 +49,6 @@ class Result
       game_status = ""
     end
 
-   match_status + book_status + game_status
+    match_status + book_status + game_status
   end
 end # Result

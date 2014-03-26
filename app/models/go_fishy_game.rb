@@ -64,11 +64,11 @@ class GoFishyGame
     books_list[player]
   end
 
-  def books_to_s(player)
+  def books_to_s(player, styler = nil)
     if books(player).nil? || books(player).empty?
       ""
     else
-      books(player).map { |rank| rank + "s"}.sort.join(", ")
+      books(player).map {|rank| (styler ? styler.rank(Card.new(rank, "c")) : rank) + "s" }.sort.join(", ")
     end
   end
 
