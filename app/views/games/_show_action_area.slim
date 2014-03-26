@@ -8,7 +8,7 @@ section.action-area
           options_for_select(@game.players.map(&:name).select {|name| name != @current_player.name})
         = label_tag ", Got any "
         = select_tag "cards",
-          options_for_select(@current_player.hand.cards.map {|card| @card_face.rankoption(card)}.uniq)
+          options_for_select(@current_player.hand.cards.map {|card| @game.card_styler.rank_option_list(card)}.uniq)
         = label_tag "'s?"
         = submit_tag 'Ask'
     - else

@@ -18,37 +18,37 @@ class Result
   end
 
   def to_s(styler = nil)
+    styled_rank          = styler ? styler.rank(@rank) : @rank
+    name = @requester.name
+    match_status = []
+    match_status << "#{name} asked for #{styled_rank}s from #{@victim.name}"
+
     if received_from_player
-      match_status = "Player got #{matches}."
+      match_status << "and got #{matches}."
     else
-      match_status = "Player was told to 'Go Fish' and "
+      match_status << "and was told to 'Go Fish.' "
       if matches == 0
-        match_status += "he did not get what he asked for from the pond."
+        match_status << "#{name} did not get any from the pond."
       else
-        match_status += "he got one from the pond!"
+        match_status << "#{name} got one from the pond!"
       end
     end
 
-    match_status += "\n"
-    
     if ! book_made
-      book_status = "He did not make a book."
+      match_status << "#{name} did not make a book."
     else
       if surprise_rank
-        display_rank = styler ? styler.rank(Card.new(surprise_rank, "c")) : surprise_rank
-        book_status = "He was surprised to make a book of #{display_rank}s."
+        styled_surprise_rank = styler ? styler.rank(@surprise_rank) : @surprise_rank
+        match_status << "#{name} was surprised to make a book of #{styled_surprise_rank}s."
       else
-        display_rank = styler ? styler.rank(Card.new(rank, "c")) : rank
-        book_status = "He made a book of #{display_rank}s."
+        match_status << "#{name} made a book of #{styled_rank}s."
       end
     end
 
     if game_over
-      game_status = "\nThe Game is now over"
-    else
-      game_status = ""
+      match_status << "The game is now over."
     end
 
-    match_status + book_status + game_status
+    match_status.join(" ")
   end
 end # Result
