@@ -1,8 +1,5 @@
 class GamesController < ApplicationController
 
-  def new
-  end
-
   def index
     @games = GameSlot.all
   end
