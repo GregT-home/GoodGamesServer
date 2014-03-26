@@ -2,6 +2,9 @@ section.startup-parameters-area
 h1 Create GoFishy Game
 = form_tag games_path
   p
+    = label_tag "human-name", "Your name: "
+    = text_field_tag "human-name", "Silly Brains", required: "true"
+  p
     = select_tag "number-of-humans",
       options_for_select([1, 2, 3, 4])
     |  number of humans who will play
