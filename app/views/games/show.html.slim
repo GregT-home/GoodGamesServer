@@ -2,12 +2,11 @@ section.game-area
   section.play-area
     section.history-area
       h2 Last Round
-      - @current_player.messages.each_with_index do |msg, i|
-        p #{i+1}) #{msg}
-        -break if i > 3
+      ol.scrolling-area
+        - @current_player.messages.each_with_index do |msg|
+          li #{msg}
 
     - if @game.started
-      == render 'games/action_area'
-      == render 'games/cards_area'
-      == render 'games/books_area'
-      == render 'games/status_area'
+      = render 'games/show_action_area'
+      = render 'games/show_cards_area'
+      = render 'games/show_status_area'

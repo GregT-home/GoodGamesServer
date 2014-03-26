@@ -1,8 +1,12 @@
-h1 Welcome to Good Games
+h1#main-choices-title Welcome to Good Games
 ul.main-choices
-  li
-    a href="/users/sign_in" Sign In
-  li
-    a href="/users/sign_up" Sign Up
-  / li
-  /   a href="/users/sign_out" Sign Out
+  - if signed_in?
+    li
+      = link_to "Sign out", destroy_user_session_path
+    li
+      = link_to "Play", games_path
+  - else
+    li 
+      = link_to "Sign up", new_user_registration_path
+    li
+      = link_to "Sign in", new_user_session_path

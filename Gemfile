@@ -4,6 +4,7 @@ ruby '2.0.0'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.3'
 gem 'devise'
+gem 'bootstrap-sass'
 gem 'slim-rails'
 
 group :development, :test do
@@ -28,3 +29,7 @@ gem 'coffee-rails', '~> 4.0.0'
 gem 'jquery-rails'
 gem 'turbolinks' # Turbolinks: Read more: https://github.com/rails/turbolinks
 gem 'jbuilder', '~> 1.2'
+
+group :production do
+  gem 'rails_12factor'
+end

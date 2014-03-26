@@ -1,12 +1,12 @@
 h2 Games You Can Play
 
-table.games border=1 cellspacing=0
+table.games.container.table-striped.table-bordered.table-hover.responsive
   tr
     th Game #
     th Type
     th Card Style
     th When changed
-  tr.new-game
+  tr.new-game.active
     td colspan=4
       = link_to "New Game", new_game_path
   = render @games

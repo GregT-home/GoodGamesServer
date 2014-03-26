@@ -1,0 +1,25 @@
+header.navbar.navbar-fixed-top
+  .navbar-inner
+    .container
+      = link_to "GoodGames", root_path, id: "logo"
+      nav
+        ul.nav.pull-right.navbar-nav
+          li = link_to "Home", root_path
+          li
+            a[href="#tbi"]
+              | Help
+          - if signed_in?
+            li = link_to "Play", games_path
+            li#fat-menu.dropdown
+              a.dropdown-toggle[href="#" data-toggle="dropdown"]
+                |  Account 
+                b.caret
+              ul.dropdown-menu
+                / gt: to be implemented
+                / li = link_to "Profile", current_user
+                / li = link_to "Change Password", edit_user_path(current_user)
+                li Change Password
+                li.divider
+                li = link_to "Sign out", destroy_user_session_path, method: "delete"
+          - else
+            li = link_to "Sign in", new_user_session_path

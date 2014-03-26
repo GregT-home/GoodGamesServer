@@ -11,8 +11,22 @@ class GamesController < ApplicationController
     @game = slot.game
     @card_face = CardDecorator.new(slot.card_style.to_sym)
     @current_player = @game.current_player
-    @players = @game.players
+    @id = slot.id 
   end
+
+  def update
+    opponent_name = params["opponents"].to_i
+    card_rank = params["cards"].to_i
+binding.pry
+    slot = GameSlot.find_by(id: params["id"])
+    return redirect_to new_game_path unless slot
+
+    @game = slot.game
+
+    # result = play_round(opponent_name)
+
+  end
+
 
   def create
     num_robots = params["number-of-robots"].to_i
@@ -29,6 +43,8 @@ class GamesController < ApplicationController
       player_number += 1
       game.add_player(player_number, robot_names.pop)
       game.current_player.make_robot
+      game.players[0].tell "Adding a new player..."
+      game.players[0].tell "Added player ##{game.current_player.number}, #{game.current_player.name} to game"
     end
     game.start()
 

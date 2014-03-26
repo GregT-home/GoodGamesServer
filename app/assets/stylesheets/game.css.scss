@@ -6,8 +6,6 @@
   &:after { clear: both; }
 }
 
-// gt: rails includes this in application.css.scss -- @import '_header_nav';
-
 // compression: shrink base font by 2 px
 @media all { html { font-size: $base-font-size; } }
 @media (max-width: $tablet_size) { html { font-size: $base-font-size * $compression-ratio; } }
@@ -40,14 +38,37 @@ p.history-area {
     clear: both;
     @include clearfix;
 
-    h2 { margin: .15em 0 .5em 0 }
+    h2 { margin: .15em 0 .5em 0; }
     h3 { margin: .5em 0 .25em 0; }
   }
 
-  .action-area, .history-area, .hand-area{
-    width: 50%;
+  .history-area {
+    h2 { margin: 0; }
+    ol { margin: 0 0 .5em 0; }
+    li { margin: 0 0 .2em 0; }
+  }
+
+  .scrolling-area {
+    max-height: 1.75 * $hand-card-width;
+    overflow-y: scroll;
+  }
+  
+  .books-area {
+    min-height: $hand-card-width;
+  }
+
+  .history-area {
+    width: 60%;
+    float: right;
+  }
+  .action-area {
+    width: 40%;
     float: left;
   }
+  .hand-area {
+    width: 100%;
+  }
+
   #cards, #opponents { background:transparent;}
 
   .hand-area {
@@ -135,5 +156,3 @@ p.history-area {
   }
   .action { padding: 0 }
 }
-
-// gt: moved for rails -- @import '_footer';

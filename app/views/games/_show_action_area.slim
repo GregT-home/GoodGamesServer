@@ -1,6 +1,6 @@
 section.action-area
   h2 Actions you can take
-  = form_tag "/games/1", method: :patch, class: "action"
+  = form_tag game_path(@id), method: :patch, class: "action"
     - if @game.started
       li
         | Hey
@@ -8,7 +8,7 @@ section.action-area
           options_for_select(@game.players.map(&:name).select {|name| name != @current_player.name})
         = label_tag ", Got any "
         = select_tag "cards",
-          options_for_select(@current_player.hand.cards.map {|card| @card_face.rank(card)}.uniq)
+          options_for_select(@current_player.hand.cards.map {|card| @card_face.rankoption(card)}.uniq)
         = label_tag "'s?"
         = submit_tag 'Ask'
     - else
