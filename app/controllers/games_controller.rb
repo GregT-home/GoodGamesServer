@@ -8,6 +8,7 @@ class GamesController < ApplicationController
     return redirect_to new_game_path unless slot = GameSlot.find_by(id: params["id"])
 
     @game = slot.game
+    @game.set_card_style(slot.card_style) if @game.card_styler.nil?
     @current_player = @game.current_player
     @id = slot.id 
   end
