@@ -5,8 +5,7 @@ class GamesController < ApplicationController
   end
 
   def show
-    slot = GameSlot.find_by(id: params["id"])
-    return redirect_to new_game_path unless slot
+    return redirect_to new_game_path unless slot = GameSlot.find_by(id: params["id"])
 
     @game = slot.game
     @current_player = @game.current_player
@@ -14,15 +13,14 @@ class GamesController < ApplicationController
   end
 
   def update
-    slot = GameSlot.find_by(id: params["id"])
-    return redirect_to new_game_path unless slot
-
+    return redirect_to new_game_path unless slot = GameSlot.find_by(id: params["id"])
     game = slot.game
 
     unless game.over?
       current = game.current_player
 
       game.make_human_move(params) unless (current.robot?)
+
       while (game.current_player.robot? && ! game.over?)
         game.check_endgame
         game.make_robot_move

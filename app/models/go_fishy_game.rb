@@ -1,7 +1,8 @@
 class GoFishyGame
   GAME_OVER_TOKEN = "::GAME_OVER::" unless const_defined?(:GAME_OVER_TOKEN)
 
-  attr_reader :players, :card_styler
+  attr_reader :players, :pond, :card_styler
+  attr_reader :books_list
 
   def initialize()
     @players = []
@@ -192,6 +193,11 @@ class GoFishyGame
 
   def check_endgame
     messages = []
+
+    # if all players are out of cards: end the game.
+    players_with_cards = players.select { |p| p.hand.count > 0}
+    @game_over = true if players_with_cards == []
+
     if over?
       messages << "There are no more fish in the pond.  Game play is over. Here is the final outcome:"
 
