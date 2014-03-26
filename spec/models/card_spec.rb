@@ -1,3 +1,4 @@
+require 'spec_helper'
 # Jan-2014: Test(s) need to be added for == and related hash equivalence operators.
 #  test these exhaustively to ensure proper operations of hashes, etc.
 #  not needed for this project, but good to keep in mind for other time

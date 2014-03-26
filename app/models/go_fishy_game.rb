@@ -174,16 +174,12 @@ class GoFishyGame
     broadcast(result.to_s(@card_styler))
   end # make_robot_moves
 
-  def make_human_move(params)
+  def make_human_move(victim, rank)
     broadcast("=========")
-    rank = params["cards"]
     return check_endgame if out_of_cards?
-    victim = player_from_name(params["opponents"])
-    # test hack: play w/ self if no other players
-    victim = current_player if victim.nil? && number_of_players == 1
 
     mover = current_player
-    result = play_round(victim,rank)
+    result = play_round(victim, rank)
     broadcast(result.to_s(@card_styler))
   end # make_human_move
 
@@ -196,7 +192,7 @@ class GoFishyGame
 
     # if all players are out of cards: end the game.
     players_with_cards = players.select { |p| p.hand.count > 0}
-    @game_over = true if players_with_cards == []
+    @game_over = true if players_with_cards == [] || pond.count == 0
 
     if over?
       messages << "There are no more fish in the pond.  Game play is over. Here is the final outcome:"

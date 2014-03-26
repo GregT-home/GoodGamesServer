@@ -18,9 +18,15 @@ class GamesController < ApplicationController
     game = slot.game
 
     unless game.over?
-      current = game.current_player
+      unless game.current_player.robot?
+        rank = params["cards"]
+        victim = game.player_from_name(params["opponents"])
 
-      game.make_human_move(params) unless (current.robot?)
+        # tmp test hack: play w/ self if no other players
+        victim = current_player if victim.nil? && number_of_players == 1
+
+        game.make_human_move(victim, rank)
+      end
 
       while (game.current_player.robot? && ! game.over?)
         game.check_endgame

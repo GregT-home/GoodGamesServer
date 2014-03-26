@@ -8,7 +8,7 @@ class Card
   def initialize(myrank, mysuit)
     @rank = myrank
     @suit = mysuit
-end
+  end
 
   def value
     RANKS.index(@rank.downcase)
