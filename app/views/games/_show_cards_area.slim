@@ -11,7 +11,6 @@ section class="cards-area"
     - unless @game.books(@current_player).nil?
       - @game.books(@current_player).each do |rank|
         ul.books
-          testing
           - Card::SUITS.each do |suit|
             li
-              = image_tag @card_face.image_name(card), alt: @card_face.text_name(card)
+              = image_tag @card_face.image_name(Card.new(rank, suit)), alt: @card_face.text_name(Card.new(rank,suit))
