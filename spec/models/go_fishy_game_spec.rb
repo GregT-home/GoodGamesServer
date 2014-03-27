@@ -101,7 +101,7 @@ describe GoFishyGame, "Test game play logic." do
       @number_of_test_players = names.count
       @hand_size = 7
 
-      test_deck = GoFishySpecHelpers.cards_from_hand_s( "2C 2H 3C QH 5C 4H 9H",
+      test_deck = GoFishySpecHelpers.cards_from_hand_s("2C 2H 3C QH 5C 4H 9H",
                                           "2S 2D 3S 3D 5S 4D 9C",
                                           "10C 10H 10S 10D AC AH 9S")
       test_deck.unshift(Card.new("3", "H"))  # add an extra card
@@ -109,11 +109,11 @@ describe GoFishyGame, "Test game play logic." do
       @game = GoFishyGame.new()
       names.each_with_index { |name, i| @game.add_player(i+20, name) }
       @game.start(test_deck)
-  
+      
       @player1 = @game.players.first
       @player2 = @game.players.second
       @player3 = @game.players.last
-  end # before :each
+    end # before :each
 
     it "Test Deck results in expected hands." do
       @game.number_of_players.should be @number_of_test_players
