@@ -54,7 +54,11 @@ class GamesController < ApplicationController
     game.set_card_style(card_style)
     player_number = 1
     game.add_player(player_number, human_name)
-    robot_names = ["Robbie", "R.D. Olivaw", "Speedy", "R2-D2", "C-3PO"].shuffle
+    robot_names = ["Robbie", "R.D. Olivaw", "Speedy", "R2-D2",
+                   "C-3PO", "Marvin", "Cutie", "Norby", "Johnny 5",
+                  "HAL", "Mechagodzilla", "Robotman", "T-800",
+                  "T-1000", "WALL-E", "EVE", "BURN-E", "Gort",
+                  "Simon"].shuffle
     num_robots.times do
       player_number += 1
       game.add_player(player_number, robot_names.pop)

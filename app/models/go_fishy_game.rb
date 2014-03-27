@@ -221,11 +221,11 @@ class GoFishyGame
   private
 
   def out_of_cards?
-    unless current_player.hand.cards[0]
+    if current_player.hand.cards == []
       broadcast("#{current_player.name} has no more cards.")
       advance_to_next_player
     end
-    current_player.hand.cards[0].nil?
+    current_player.hand.cards == []
   end
 
   def deal(number)

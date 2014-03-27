@@ -6,11 +6,11 @@ h1 Create GoFishy Game
     = text_field_tag "human-name", "Silly Brains", required: "true"
   p
     = select_tag "number-of-humans",
-      options_for_select([1, 2, 3, 4])
+      options_for_select([1, 2, 3])
     |  number of humans who will play
   p
     = select_tag "number-of-robots",
-      options_for_select([0, 1, 2, 3, 4,])
+      options_for_select([0, 1, 2, 3, 4, 5, 6])
     |  number of non-humans who will play
   p
     = select_tag "card-style",
