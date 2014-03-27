@@ -19,7 +19,8 @@ end
 group :test do
   gem 'selenium-webdriver'
   gem 'capybara'
-  gem 'database_cleaner', github: "bmabey/database_cleaner"
+  gem 'database_cleaner'
+  gem 'mocha'
 end
 
 gem 'pg'

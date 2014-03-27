@@ -5,37 +5,52 @@ class GamesController < ApplicationController
   end
 
   def show
-    slot = GameSlot.find_by(id: params["id"])
-    return redirect_to new_game_path unless slot
+    return redirect_to new_game_path unless slot = GameSlot.find_by(id: params["id"])
 
     @game = slot.game
-    @card_face = CardDecorator.new(slot.card_style.to_sym)
+    @game.set_card_style(slot.card_style) if @game.card_styler.nil?
     @current_player = @game.current_player
     @id = slot.id 
   end
 
   def update
-    opponent_name = params["opponents"].to_i
-    card_rank = params["cards"].to_i
-binding.pry
-    slot = GameSlot.find_by(id: params["id"])
-    return redirect_to new_game_path unless slot
+    return redirect_to new_game_path unless slot = GameSlot.find_by(id: params["id"])
+    game = slot.game
 
-    @game = slot.game
+    unless game.over?
+      unless game.current_player.robot?
+        rank = params["cards"]
+        victim = game.player_from_name(params["opponents"])
 
-    # result = play_round(opponent_name)
+        # tmp test hack: play w/ self if no other players
+        victim = current_player if victim.nil? && number_of_players == 1
 
+        game.make_human_move(victim, rank)
+      end
+
+      while (game.current_player.robot? && ! game.over?)
+        game.check_endgame
+        game.make_robot_move
+      end
+      game.check_endgame
+
+      slot.game = game
+      slot.save
+    end
+
+    redirect_to game_path slot.id
   end
 
 
   def create
     num_robots = params["number-of-robots"].to_i
     num_humans = params["number-of-humans"].to_i
-    card_style = params["card-style"].to_sym
+    card_style = params["card-style"]
 
     # future: if there is a saved game, then restore it
     # new game is created on every refresh
     game = GoFishyGame.new()
+    game.set_card_style(card_style)
     player_number = 1
     game.add_player(player_number, "Greg")
     robot_names = ["Robbie", "R.D. Olivaw", "Speedy", "R2-D2", "C-3PO"].shuffle
@@ -43,7 +58,6 @@ binding.pry
       player_number += 1
       game.add_player(player_number, robot_names.pop)
       game.current_player.make_robot
-      game.players[0].tell "Adding a new player..."
       game.players[0].tell "Added player ##{game.current_player.number}, #{game.current_player.name} to game"
     end
     game.start()

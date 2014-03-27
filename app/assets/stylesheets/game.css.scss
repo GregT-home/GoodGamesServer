@@ -70,10 +70,6 @@ p.history-area {
   }
 
   #cards, #opponents { background:transparent;}
-
-  .hand-area {
-    width: 68%;
-  }
 }
 
 @media (max-width: $phone_size) {
@@ -106,6 +102,7 @@ p.history-area {
 
   // books stack horizontally w/ rank not visible.
   .books {
+    margin: $book-card-width * .08;
     list-style-type: none;
     img { width: $book-card-width; }
     display: inline;

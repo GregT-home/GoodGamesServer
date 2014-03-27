@@ -1,7 +1,8 @@
 class GoFishyGame
   GAME_OVER_TOKEN = "::GAME_OVER::" unless const_defined?(:GAME_OVER_TOKEN)
 
-  attr_reader :books_list, :pond, :players
+  attr_reader :players, :pond, :card_styler
+  attr_reader :books_list
 
   def initialize()
     @players = []
@@ -9,6 +10,7 @@ class GoFishyGame
     @game_over = false
     @current_player_index = 0
     @game_is_started = false
+    @card_styler = set_card_style("standard")
   end
 
   def start(cards = nil)
@@ -44,13 +46,16 @@ class GoFishyGame
     end
   end
 
+  def set_card_style(style)
+    @card_styler = CardStyler.new(style)
+  end
+
   def current_player
     @players[@current_player_index]
   end
 
-  def player_from_number(number)
-    hit = @players.detect() { |player| player.number == number}
-    return hit.nil? ? nil : hit
+  def player_from_name(name)
+    hit = @players.detect() { |player| player.name == name}
   end    
 
   def number_of_players
@@ -63,14 +68,6 @@ class GoFishyGame
 
   def books(player)
     books_list[player]
-  end
-
-  def books_to_s(player)
-    if books(player).nil? || books(player).empty?
-      ""
-    else
-      books(player).map { |rank| rank + "s"}.sort.join(", ")
-    end
   end
 
   def number_of_books(player)
@@ -151,7 +148,86 @@ class GoFishyGame
     player_books.map { |player| bucket_list.index(player) }
   end
 
+  # Interaction methods
+
+  def books_to_s(player)
+    if books(player).nil? || books(player).empty?
+      ""
+    else
+      books(player).map {|rank| @card_styler.rank(rank) + "s" }.sort.join(", ")
+    end
+  end
+
+  def make_robot_move
+    return check_endgame if out_of_cards?
+
+    rank = current_player.hand.cards[0].rank
+    return unless rank
+
+    me = victim_number = current_player.number - 1
+    while (victim_number == me) do
+      victim_number = rand(number_of_players)
+    end
+    victim = players[victim_number]
+    
+    result = play_round(victim,rank)
+    broadcast(result.to_s(@card_styler))
+  end # make_robot_moves
+
+  def make_human_move(victim, rank)
+    broadcast("=========")
+    return check_endgame if out_of_cards?
+
+    mover = current_player
+    result = play_round(victim, rank)
+    broadcast(result.to_s(@card_styler))
+  end # make_human_move
+
+  def broadcast(message)
+    players.each { |player| player.tell(message) }
+  end
+
+  def check_endgame
+    messages = []
+
+    # if all players are out of cards: end the game.
+    players_with_cards = players.select { |p| p.hand.count > 0}
+    @game_over = true if players_with_cards == [] || pond.count == 0
+
+    if over?
+      messages << "There are no more fish in the pond.  Game play is over. Here is the final outcome:"
+
+      rankings = calculate_rankings
+      winners = 0
+      rankings.each { |rank| winners += 1 if rank == 0}
+      status = []
+      players.each_with_index do |player, i|
+        status << " #{player.name}, made #{books(player).count} books (#{books_to_s(player)})"
+        if rankings[i] == 0
+          status << " and is the winner!" if winners == 1
+          status << " and ties for the win!" if winners > 1
+        else
+          status << "." if winners == 0
+        end
+      end
+      messages << status.join(" ")
+      messages << "Thank you for Playing."
+      messages << "======================"
+      messages.reverse.each {|msg|  broadcast(msg)}
+      advance_to_next_player while current_player.robot?
+    end
+  end # endgame
+
   private
+
+  def out_of_cards?
+    unless current_player.hand.cards[0]
+      broadcast("#{current_player.name} has no more cards.")
+      advance_to_next_player
+    end
+    current_player.hand.cards[0].nil?
+  end
+
   def deal(number)
     number.times do
       @players.each { |player| player.hand.receive_cards([@pond.give_card]) }
