@@ -109,15 +109,19 @@ describe GoFishyGame, "Test game play logic." do
       @game = GoFishyGame.new()
       names.each_with_index { |name, i| @game.add_player(i+20, name) }
       @game.start(test_deck)
-    end # before :each
+  
+      @player1 = @game.players.first
+      @player2 = @game.players.second
+      @player3 = @game.players.last
+  end # before :each
 
     it "Test Deck results in expected hands." do
       @game.number_of_players.should be @number_of_test_players
       @game.players.each { |player| player.hand.count.should be @hand_size }
 
       # test a few samples for validity
-      @game.players.first.hand.cards[0].should eq Card.new("Q", "H")
-      @game.players[2].hand.cards[3].should eq Card.new("10", "C")
+      @player1.hand.cards[0].should eq Card.new("Q", "H")
+      @player3.hand.cards[3].should eq Card.new("10", "C")
       @game.pond.cards.first.should eq Card.new("3", "H")
     end
 
@@ -139,10 +143,10 @@ describe GoFishyGame, "Test game play logic." do
       start_player = @game.current_player
       started_with = start_player.hand.rank_count("4")
 
-      result = @game.play_round(@game.players[2], "4")  # hand 2 has no 4s, nor the pond
+      result = @game.play_round(@player3, "4")  # hand 2 has no 4s, nor the pond
 
       result.requester.should eq start_player
-      result.victim.should eq @game.players[2]
+      result.victim.should eq @player3
       result.rank.should eq "4"
       result.matches.should eq 0
       result.received_from_pond.should be_true
@@ -157,7 +161,7 @@ describe GoFishyGame, "Test game play logic." do
       start_player = @game.current_player
       started_with = start_player.hand.rank_count("3")
 
-      result = @game.play_round(@game.players[1], "3")  # hand 1 has 2 x 3s
+      result = @game.play_round(@player2, "3")  # hand 1 has 2 x 3s
       result.matches.should eq 2
       result.received_from_player.should be_true
       result.book_made.should be_false
@@ -169,7 +173,7 @@ describe GoFishyGame, "Test game play logic." do
     it ".play_round, typical case 3: ask Victim: gets; Pond: N/A; Book: Yes; plays again." do
       starting_player = @game.current_player
 
-      result = @game.play_round(@game.players[1], "2")  # hand 1 has 2 x 2s
+      result = @game.play_round(@player2, "2")  # hand 1 has 2 x 2s
       result.matches.should eq 2
       result.received_from_player.should be_true
       result.book_made.should be_true
@@ -183,7 +187,7 @@ describe GoFishyGame, "Test game play logic." do
       starting_player = @game.current_player
       started_with = starting_player.hand.rank_count("3")
 
-      result = @game.play_round(@game.players[2], "3")  # hand 2 has no 3s, pond does
+      result = @game.play_round(@player3, "3")  # hand 2 has no 3s, pond does
       result.matches.should eq 1
       result.received_from_pond.should be_true
       result.book_made.should be_false
@@ -196,9 +200,9 @@ describe GoFishyGame, "Test game play logic." do
     it ".play_round, typical case 5: ask Victim: no get; Pond: get; Book: yes; plays again." do
       # we play 2 hands to get to do this
       starting_player = @game.current_player
-      @game.play_round(@game.players[1], "3") #hand 1 has 2 x 3s (test case 2)
+      @game.play_round(@player2, "3") #hand 1 has 2 x 3s (test case 2)
 
-      result = @game.play_round(@game.players[2], "3")  # hand 2 has no 3s, but pond does
+      result = @game.play_round(@player3, "3")  # hand 2 has no 3s, but pond does
       result.matches.should eq 1
       result.received_from_pond.should be_true
       result.book_made.should be_true
@@ -211,9 +215,9 @@ describe GoFishyGame, "Test game play logic." do
     it ".play_round, typical case 6: ask Victim: no get; Pond: get; Book: yes-surprise; next player." do
       # we play 2 hands to get to do this
       starting_player = @game.current_player
-      @game.play_round(@game.players[1], "3") #hand 1 has 2 x 3s (test case 2)
+      @game.play_round(@player2, "3") #hand 1 has 2 x 3s (test case 2)
 
-      result = @game.play_round(@game.players[2], "Q")  # hand 2 has no Qs, pond has a 3 for book
+      result = @game.play_round(@player3, "Q")  # hand 2 has no Qs, pond has a 3 for book
       result.matches.should eq 0
       result.received_from_pond.should be_true
       result.surprise_rank.should eq "3"
@@ -233,7 +237,7 @@ describe GoFishyGame, "Test game play logic." do
         next_card.should be_nil
 
         # Play a round: ask for 3 from hand 2, don't get one, don't get from pond
-        result = @game.play_round(@game.players[2], "3")
+        result = @game.play_round(@player3, "3")
         result.received_from_player.should be_nil
         result.received_from_pond.should be_nil
         result.matches.should eq 0
@@ -244,8 +248,8 @@ describe GoFishyGame, "Test game play logic." do
 
       it ".calculate_rankings: it determines player ranking" do
         # Player 1 wins, Player 2 comes second, 0 is third
-        @game.books_list[@game.players[1]] = ["Q", "2", "7"]
-        @game.books_list[@game.players[2]] = ["A"]
+        @game.books_list[@player2] = ["Q", "2", "7"]
+        @game.books_list[@player3] = ["A"]
 
         rank_list = @game.calculate_rankings
         rank_list.should eq [2, 0, 1]
@@ -253,9 +257,9 @@ describe GoFishyGame, "Test game play logic." do
 
       it ".calculate_rankings: it shows ties" do
 
-        # Players 1 & 2 both have 2
-        @game.books_list[@game.players[1]] = ["Q", "2"]
-        @game.books_list[@game.players[2]] = ["7", "A"]
+        # Players 1 & 2 both have 2 books
+        @game.books_list[@player2] = ["Q", "2"]
+        @game.books_list[@player3] = ["7", "A"]
 
         rank_list = @game.calculate_rankings
         rank_list.should eq [1, 0, 0]
