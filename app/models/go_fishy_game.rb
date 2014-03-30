@@ -27,6 +27,7 @@ class GoFishyGame
     @players.each {  |player| @books_list[player] = [] }
     @current_player_index = 0
     deal(@players.count > 4 ? 5: 7)
+    check_players_for_books
     current_player.tell("It is your turn.")
     @game_is_started = true
   end
@@ -131,7 +132,7 @@ class GoFishyGame
   def check_players_for_books
     @players.each do |player|
       player.hand.cards.map do |card|
-        if @game.process_books(card.rank)
+        if process_books(card.rank)
           players.each { |p| p.tell "#{player.name} was dealt a book of #{card.rank}s.\n" }
           break
         end
