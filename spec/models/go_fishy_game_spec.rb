@@ -5,16 +5,22 @@ describe GoFishyGame, "Methods prior to game start." do
     before :each do
       @game = GoFishyGame.new()
       @game.add_player(501, "One")
-
-      @current_player = @game.current_player
+      @player = @game.current_player
     end
     
     it "#new: creates a Fish game" do
       expect(@game).to be_kind_of(GoFishyGame)
     end
 
-    it "#add_player: adds a new player" do
-      expect(@game.players.first).to be_kind_of(Player)
+    it "#add_player: adds a new human player" do
+      expect(@player).to be_kind_of(Player)
+      expect(@player.robot?).to be_false
+    end
+
+    it "#add_robot_player: adds a new robot player" do
+      @game.add_robot_player(502)
+      expect(@game.current_player.robot?).to be_true
+      expect(@player).to be_kind_of(Player)
     end
 
     it ".started is false when a game is created" do
