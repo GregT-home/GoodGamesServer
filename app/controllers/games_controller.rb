@@ -43,6 +43,7 @@ class GamesController < ApplicationController
 
 
   def create
+    human_name = params["human-name"]
     num_robots = params["number-of-robots"].to_i
     num_humans = params["number-of-humans"].to_i
     card_style = params["card-style"]
@@ -52,12 +53,10 @@ class GamesController < ApplicationController
     game = GoFishyGame.new()
     game.set_card_style(card_style)
     player_number = 1
-    game.add_player(player_number, "Greg")
-    robot_names = ["Robbie", "R.D. Olivaw", "Speedy", "R2-D2", "C-3PO"].shuffle
+    game.add_player(player_number, human_name)
     num_robots.times do
       player_number += 1
-      game.add_player(player_number, robot_names.pop)
-      game.current_player.make_robot
+      game.add_robotplayer(player_number)
       game.players[0].tell "Added player ##{game.current_player.number}, #{game.current_player.name} to game"
     end
     game.start()

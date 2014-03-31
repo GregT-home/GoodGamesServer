@@ -1,8 +1,10 @@
 class GoFishyGame
-  GAME_OVER_TOKEN = "::GAME_OVER::" unless const_defined?(:GAME_OVER_TOKEN)
-
-  attr_reader :players, :pond, :card_styler
-  attr_reader :books_list
+  attr_reader :players, :pond, :books_list, :card_styler
+  ROBOT_NAMES = ["Robbie", "R.D. Olivaw", "Speedy", "R2-D2", "C-3PO",
+                 "Marvin", "Cutie", "Norby", "Johnny 5", "HAL",
+                 "Mechagodzilla", "Robotman", "T-800", "T-1000",
+                 "WALL-E", "EVE", "BURN-E", "Gort", "Simon"]
+  
 
   def initialize()
     @players = []
@@ -11,6 +13,7 @@ class GoFishyGame
     @current_player_index = 0
     @game_is_started = false
     @card_styler = set_card_style("standard")
+    @robot_names = ROBOT_NAMES
   end
 
   def start(cards = nil)
@@ -25,6 +28,7 @@ class GoFishyGame
     @players.each {  |player| @books_list[player] = [] }
     @current_player_index = 0
     deal(@players.count > 4 ? 5: 7)
+    check_players_for_books
     current_player.tell("It is your turn.")
     @game_is_started = true
   end
@@ -44,6 +48,11 @@ class GoFishyGame
       player.tell("Waiting for the rest of the players.")
       advance_to_next_player unless @players.empty?
     end
+  end
+
+  def add_robot_player(number)
+    add_player(number, @robot_names.shuffle!.pop)
+    current_player.make_robot
   end
 
   def set_card_style(style)
@@ -124,7 +133,7 @@ class GoFishyGame
   def check_players_for_books
     @players.each do |player|
       player.hand.cards.map do |card|
-        if @game.process_books(card.rank)
+        if process_books(card.rank)
           players.each { |p| p.tell "#{player.name} was dealt a book of #{card.rank}s.\n" }
           break
         end
@@ -192,7 +201,7 @@ class GoFishyGame
 
     # if all players are out of cards: end the game.
     players_with_cards = players.select { |p| p.hand.count > 0}
-    @game_over = true if players_with_cards == [] || pond.count == 0
+    @game_over = true if players_with_cards.empty? || pond.count == 0
 
     if over?
       messages << "There are no more fish in the pond.  Game play is over. Here is the final outcome:"
@@ -221,11 +230,11 @@ class GoFishyGame
   private
 
   def out_of_cards?
-    unless current_player.hand.cards[0]
+    if current_player.hand.cards.empty?
       broadcast("#{current_player.name} has no more cards.")
       advance_to_next_player
     end
-    current_player.hand.cards[0].nil?
+    current_player.hand.cards.empty?
   end
 
   def deal(number)
