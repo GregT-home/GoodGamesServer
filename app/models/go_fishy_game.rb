@@ -1,11 +1,11 @@
 class GoFishyGame
   attr_reader :players, :pond, :books_list, :card_styler
-
   ROBOT_NAMES = ["Robbie", "R.D. Olivaw", "Speedy", "R2-D2", "C-3PO",
                  "Marvin", "Cutie", "Norby", "Johnny 5", "HAL",
                  "Mechagodzilla", "Robotman", "T-800", "T-1000",
                  "WALL-E", "EVE", "BURN-E", "Gort", "Simon"]
   
+
   def initialize()
     @players = []
     @books_list = {}
@@ -13,6 +13,7 @@ class GoFishyGame
     @current_player_index = 0
     @game_is_started = false
     @card_styler = set_card_style("standard")
+    @robot_names = ROBOT_NAMES
   end
 
   def start(cards = nil)
@@ -50,7 +51,7 @@ class GoFishyGame
   end
 
   def add_robot_player(number)
-    add_player(number, ROBOT_NAMES.shuffle!.pop)
+    add_player(number, @robot_names.shuffle!.pop)
     current_player.make_robot
   end
 
